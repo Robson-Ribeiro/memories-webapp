@@ -53,3 +53,18 @@ export const deletePost = async (req, res) => {
         res.status(409).json({ message: error.message });
     }
 }
+
+export const likePost = async (req, res) => {
+    const { id: _id } = req.params;
+    if(!_id) return res.status(404).json({ message: "No param received!" });
+    if(!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).json({ message: "No valid param received!" });
+
+    try {
+        const post = await PostModel.findById(_id);
+        const updatedPost = await PostModel.findByIdAndUpdate(_id, { likeCount: post.likeCount + 1 }, { new: true });
+
+        res.json(updatedPost).status(200);
+    } catch (error) {
+        res.status(409).json({ message: error.message });
+    }
+}

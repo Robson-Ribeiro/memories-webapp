@@ -1,5 +1,5 @@
-import PostModel from '../models/postModel.js';
 import mongoose from 'mongoose';
+import PostModel from '../models/postModel.js';
 
 export const getPosts = async (req, res) => {
     try {
@@ -34,7 +34,7 @@ export const updatePost = async (req, res) => {
 
     if(!post) return res.status(400).json({ message: "No post received!" });
     try {
-        const updatedPost = await PostModel.findByIdAndUpdate(_id, post, { new: true });
+        const updatedPost = await PostModel.findByIdAndUpdate(_id, { ...post, _id }, { new: true });
         return res.status(200).json(updatedPost);
     } catch (error) {
         res.status(409).json({ message: error.message });

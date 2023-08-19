@@ -40,3 +40,16 @@ export const updatePost = async (req, res) => {
         res.status(409).json({ message: error.message });
     }
 }
+
+export const deletePost = async (req, res) => {
+    const { id: _id } = req.params;
+    if(!_id) return res.status(404).json({ message: "No param received!" });
+    if(!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).json({ message: "No valid param received!" });
+    
+    try {
+        const deletedPost = await PostModel.findByIdAndDelete(_id);
+        return res.status(200).json(deletedPost);
+    } catch (error) {
+        res.status(409).json({ message: error.message });
+    }
+}

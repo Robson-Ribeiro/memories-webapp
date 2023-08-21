@@ -1,13 +1,15 @@
+import * as constants from '../constants/actionTypes';
+
 const reducers = (posts = [], action) => {
     switch (action.type) {
-        case 'FETCH_ALL':
+        case constants.FETCH_ALL:
             return action.payload;
-        case 'CREATE':
+        case constants.CREATE:
             return [ ...posts, action.payload ];
-        case 'UPDATE':
-        case 'LIKE':
+        case constants.UPDATE:
+        case constants.LIKE:
             return posts.map((post) => post._id === action.payload._id ? action.payload : post);
-        case 'DELETE':
+        case constants.DELETE:
             return posts.filter((post) => post._id !== action.payload._id);
         default:
             return posts;

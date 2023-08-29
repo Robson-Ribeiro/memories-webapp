@@ -21,6 +21,9 @@ export const signUp = (formData, navigate) => async (dispatch) => {
 
         navigate('/');
     } catch (error) {
+        if(error.code === "ERR_BAD_REQUEST") {
+            window.alert('Já existe uma conta com esse e-mail!');
+        }
         console.log(error);
     }
 }

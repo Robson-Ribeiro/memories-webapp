@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useDipatch } from 'react-redux';
-import { useHistory } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { useNavigate } from "react-router-dom";
 
 import { Avatar, Button, Paper, Grid, Typography, Container } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -18,8 +18,8 @@ const initialState = { firstName: '', lastName: '', email: '', password: '', con
 
 const Auth = () => {
     const classes = useStyles();
-    const dispatch = useDipatch();
-    const history = useHistory();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [showPassword, setShowPassword] = useState(false);
     const [isSignUp, setIsSignUp] = useState(false);
@@ -29,9 +29,9 @@ const Auth = () => {
         e.preventDefault();
 
         if(isSignUp) {
-            dispatch(signUp(formData, history));
+            dispatch(signUp(formData, navigate));
         } else {
-            dispatch(signIn(formData, history));
+            dispatch(signIn(formData, navigate));
         }
     };
 
@@ -55,7 +55,7 @@ const Auth = () => {
 
         try {
             dispatch({ type: 'AUTH', data: { result, token } });
-            history.push('/');
+            navigate('/');
         } catch (error) {
             console.log(error);
         }

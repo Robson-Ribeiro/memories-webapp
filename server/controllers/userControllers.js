@@ -25,7 +25,7 @@ export const signIn = async (req, res) => {
 }
 
 export const signUp = async (req, res) => {
-    const {email, password, confirmPassword, firstName, lastName } = req.body;
+    const { email, password, confirmPassword, firstName, lastName } = req.body;
     if(!(email && password && confirmPassword && firstName && lastName)) return res.status(400).json({ message: "Missing credentials."});
 
     try {

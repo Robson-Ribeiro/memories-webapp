@@ -55,13 +55,25 @@ export const deletePost = async (req, res) => {
 }
 
 export const likePost = async (req, res) => {
+    if(!req.userId) return res.status(401).json({ message: "Unauthenticated" });
+
     const { id: _id } = req.params;
+
     if(!_id) return res.status(404).json({ message: "No param received!" });
     if(!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).json({ message: "No valid param received!" });
 
     try {
         const post = await PostModel.findById(_id);
-        const updatedPost = await PostModel.findByIdAndUpdate(_id, { likeCount: post.likeCount + 1 }, { new: true });
+
+        const index = post.likes.findIndex((id) => id === String(req.userId)); 
+
+        if(index === -1) {
+            post.likes.push(req.userId);
+        } else {
+            post.likes = post.likes.filter((id) => id !== req.userId);
+        }
+
+        const updatedPost = await PostModel.findByIdAndUpdate(_id, post, { new: true });
 
         res.json(updatedPost).status(200);
     } catch (error) {

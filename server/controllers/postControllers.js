@@ -13,10 +13,13 @@ export const getPosts = async (req, res) => {
 }
 
 export const createPost = async (req, res) => {
+    if(!req.userId) return res.status(401).json({ message: "Unauthenticated" });
+
     const post = req.body;
     if(!post) return res.status(500).json({ message: "An internal error had occurred. Please, try later!" });
 
-    const newPost = new PostModel(post);
+    const newPost = new PostModel({ ...post, creator: req.userId, createdAt: new Date().toISOString() });
+
     try {
         await newPost.save();
         res.status(201).json(newPost);

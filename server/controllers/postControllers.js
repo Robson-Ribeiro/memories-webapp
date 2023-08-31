@@ -29,6 +29,8 @@ export const createPost = async (req, res) => {
 }
 
 export const updatePost = async (req, res) => {
+    if(!req.userId) return res.status(401).json({ message: "Unauthenticated" });
+
     const { id: _id } = req.params;
     const post = req.body;
 
@@ -37,6 +39,11 @@ export const updatePost = async (req, res) => {
 
     if(!post) return res.status(400).json({ message: "No post received!" });
     try {
+        const postToBeUpdated = await PostModel.findById(_id);
+        if(!postToBeUpdated.creator === req.userId) {
+            return res.status(401).json({ message: "Only the owner can update this post!"});
+        }
+        
         const updatedPost = await PostModel.findByIdAndUpdate(_id, { ...post, _id }, { new: true });
         return res.status(200).json(updatedPost);
     } catch (error) {
@@ -45,13 +52,19 @@ export const updatePost = async (req, res) => {
 }
 
 export const deletePost = async (req, res) => {
+    if(!req.userId) return res.status(401).json({ message: "Unauthenticated" });
+
     const { id: _id } = req.params;
     if(!_id) return res.status(404).json({ message: "No param received!" });
     if(!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).json({ message: "No valid param received!" });
     
     try {
-        const deletedPost = await PostModel.findByIdAndDelete(_id);
-        return res.status(200).json(deletedPost);
+        const postToBeDeleted = await PostModel.findById(_id);
+        if(postToBeDeleted.creator === req.userId){
+            const deletedPost = await PostModel.findByIdAndDelete(_id);
+            return res.status(200).json(deletedPost);
+        }
+        return res.status(401).json({ message: "Only the owner can delete this post!" });
     } catch (error) {
         res.status(409).json({ message: error.message });
     }

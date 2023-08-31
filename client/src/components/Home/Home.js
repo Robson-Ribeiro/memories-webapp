@@ -16,9 +16,19 @@ const Home = () => {
     const dispatch = useDispatch();
     const [currentId, setCurrentId] = useState(null);
 
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+
+
     useEffect(() => {
-        dispatch(getPosts());
-    }, [dispatch, currentId]);
+        const getter = async () => {
+            await sleep(1000);
+            dispatch(getPosts());
+         }
+        getter();
+    }, [currentId, dispatch]);
 
     return (
         <Grow in>

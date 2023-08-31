@@ -9,6 +9,9 @@ export const signIn = (formData, navigate) => async (dispatch) => {
 
         navigate('/');
     } catch (error) {
+        if(error.code === "ERR_BAD_REQUEST") {
+            window.alert('Credenciais inválidas');
+        }
         console.log(error);
     }
 }

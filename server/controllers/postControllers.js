@@ -16,7 +16,11 @@ export const createPost = async (req, res) => {
     if(!req.userId) return res.status(401).json({ message: "Unauthenticated" });
 
     const post = req.body;
+    
     if(!post) return res.status(500).json({ message: "An internal error had occurred. Please, try later!" });
+
+    const { title, message, tags, selectedFile } = post;
+    if(!title || !message || !tags || !selectedFile) return res.status(400).json({ message: "The form must be completed in order to submit a post!" });
 
     const newPost = new PostModel({ ...post, creator: req.userId, createdAt: new Date().toISOString() });
 

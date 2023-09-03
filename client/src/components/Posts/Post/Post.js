@@ -19,8 +19,8 @@ const Post = ({ post, setCurrentId }) => {
 
     useEffect(() => {
         setUser(JSON.parse(localStorage.getItem('profile')));
+        
     }, [location]);
-    
 
     const Likes = () => {
         if (post.likes.length > 0) {

@@ -21,6 +21,10 @@ const Form = ({ currentId, setCurrentId }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         
+        console.log(postData.title);
+        
+        if(!postData.title || !postData.message || !postData.tags || !postData.selectedFile) return window.alert('The form must be completed in order to submit a post!');
+
         if(currentId) {
            dispatch(updatePost({ ...postData, name: user?.result?.name }, currentId));
         } else {

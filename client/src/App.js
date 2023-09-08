@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import { Container } from '@material-ui/core';
 
@@ -10,13 +10,7 @@ import Auth from './components/Auth/Auth';
 import PostDetails from "./components/PostDetails/PostDetails";
 
 const App = () => {
-    const [location, setLocation] = useState(window.location.href);
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
-
-    useEffect(() => {
-        setUser(JSON.parse(localStorage.getItem('profile')));
-        console.log(user);
-    }, [location]);
 
     return (
         <BrowserRouter>

@@ -4,6 +4,8 @@ const reducers = (posts = [], action) => {
     switch (action.type) {
         case constants.FETCH_ALL:
             return action.payload;
+        case constants.FETCH_BY_SEARCH:
+            return action.payload;
         case constants.CREATE:
             return [ ...posts, action.payload ];
         case constants.UPDATE:

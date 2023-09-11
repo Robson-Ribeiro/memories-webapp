@@ -7,7 +7,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Container, Grow, Grid, Paper, AppBar, TextField, Button } from '@material-ui/core';
 import ChipInput from 'material-ui-chip-input';
 
-import { getPosts, getPostBySearch } from '../../actions/posts';
+import { getPosts, getPostsBySearch } from '../../actions/posts';
 
 import Posts from '../Posts/Posts';
 import Form from '../Form/Form';
@@ -39,8 +39,8 @@ const Home = () => {
     }
 
     const searchPost = () => {
-        if(search.trim()) {
-            dispatch(getPostBySearch({ search, tags: tags.join(',') }));
+        if(search.trim() || tags) {
+            dispatch(getPostsBySearch({ search, tags: tags.join(',') }));
         } else {
             navigate('/');
         }
@@ -58,7 +58,7 @@ const Home = () => {
 
     useEffect(() => {
         const getter = async () => {
-            await sleep(1000);
+            await sleep(0);
             dispatch(getPosts());
          }
         getter();
@@ -95,27 +95,4 @@ const Home = () => {
       );
     };
     
-    
-   /* return (
-        <Grow in>
-            <Container maxWidth="xl">
-            <Grid container justifyContent="space-between" alignItems="stretch" spacing={3} className={classes.gridContainer}>    
-                    <Grid item xs={12} sm={6} md={9} >
-                        <Posts setCurrentId={setCurrentId}/>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={3}>
-                        <AppBar className={classes.appBarSearch} position="static" color="inherit">
-                            <TextField name="search" variant="outlined" label="Search Memories" fullWidth value="test" onChange={() => {}} />
-                        </AppBar>
-                        <Form currentId={currentId} setCurrentId={setCurrentId}/>
-                        <Paper className={classes.pagination} elevation={6}>
-                            <Pagination />
-                        </Paper>
-                    </Grid>
-                </Grid>
-            </Container>
-        </Grow>
-    )
-}*/
-
 export default Home;

@@ -11,13 +11,13 @@ export const getPosts = () => async (dispatch) => {
     }
 }
 
-export const getPostBySearch = (searchQuery) => async(dispatch) => {
+export const getPostsBySearch = (searchQuery) => async(dispatch) => {
     try {
-        const { data } = await api.searchPosts(searchQuery);
+        const { data: { data } } = await api.searchPosts(searchQuery);
 
         dispatch({ type: constants.FETCH_ALL, payload: data });
     } catch (error) {
-        
+        console.log(error);
     }
 }
 

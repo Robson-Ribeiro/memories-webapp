@@ -1,7 +1,11 @@
 import * as constants from '../constants/actionTypes';
 
-const reducers = (state = [], action) => {
+const reducers = (state = { isLoading: true, posts: [] }, action) => {
     switch (action.type) {
+        case constants.START_LOADING:
+            return { ...state, isLoading: true };
+        case constants.END_LOADING:
+            return { ...state, isLoading: false };
         case constants.FETCH_ALL:
             return {
                 ...state,

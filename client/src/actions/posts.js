@@ -3,9 +3,12 @@ import * as api from '../api';
 
 export const getPosts = (page) => async (dispatch) => {
     try {
+        dispatch({ type: constants.START_LOADING });
+
         const { data } = await api.fetchPosts(page);
 
         dispatch({ type: constants.FETCH_ALL, payload: data });
+        dispatch({ type: constants.END_LOADING });
     } catch (error) {
         console.log(error);
     }
@@ -13,9 +16,12 @@ export const getPosts = (page) => async (dispatch) => {
 
 export const getPostsBySearch = (searchQuery) => async(dispatch) => {
     try {
+        dispatch({ type: constants.START_LOADING });
+
         const { data: { data } } = await api.searchPosts(searchQuery);
 
         dispatch({ type: constants.FETCH_BY_SEARCH, payload: data });
+        dispatch({ type: constants.END_LOADING });
     } catch (error) {
         console.log(error);
     }
@@ -23,8 +29,11 @@ export const getPostsBySearch = (searchQuery) => async(dispatch) => {
 
 export const createPost = (post) => async (dispatch) => {
     try {
+        dispatch({ type: constants.START_LOADING });
+
         const { data } = await api.createPost(post);
         dispatch({ type: constants.CREATE, payload: data })
+        dispatch({ type: constants.END_LOADING });
     } catch (error) {
         console.log(error);
     }
@@ -32,9 +41,11 @@ export const createPost = (post) => async (dispatch) => {
 
 export const updatePost = (post, id) => async (dispatch) => {
     try {
+        dispatch({ type: constants.START_LOADING });
+
         const { data } = await api.updatePost(post, id);
         dispatch({ type: constants.UPDATE, payload: data});
-        
+        dispatch({ type: constants.END_LOADING });
     } catch (error) {
         console.log(error);
     }

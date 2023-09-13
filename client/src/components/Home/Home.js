@@ -29,7 +29,6 @@ const Home = () => {
     const page = query.get('page') || 1 ;
     const searchQuery = query.get('searchQuery');
 
-
     const [currentId, setCurrentId] = useState(null);
     const [search, setSearch] = useState('');
     const [tags, setTags] = useState([]);
@@ -57,18 +56,11 @@ const Home = () => {
 
     const handleDelete = (tagToBeDeleted) => setTags(tags.filter((tag) => tag !== tagToBeDeleted ));
 
-    useEffect(() => {
-        const getter = async () => {
-            await sleep(0);
-            dispatch(getPosts());
-         }
-        getter();
-    }, [currentId, dispatch]);
 
     return (
         <Grow in>
           <Container maxWidth="xl">
-            <Grid container justify="space-between" alignItems="stretch" spacing={3} className={classes.gridContainer}>
+            <Grid container justifyContent="space-between" alignItems="stretch" spacing={3} className={classes.gridContainer}>
               <Grid item xs={12} sm={6} md={9}>
                 <Posts setCurrentId={setCurrentId} />
               </Grid>
@@ -87,7 +79,7 @@ const Home = () => {
                 </AppBar>
                 <Form currentId={currentId} setCurrentId={setCurrentId} />
                 <Paper className={classes.pagination} elevation={6}>
-                    <Pagination />
+                    <Pagination page={page} />
                 </Paper>
               </Grid>
             </Grid>

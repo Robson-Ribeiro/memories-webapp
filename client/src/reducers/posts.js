@@ -1,20 +1,25 @@
 import * as constants from '../constants/actionTypes';
 
-const reducers = (posts = [], action) => {
+const reducers = (state = [], action) => {
     switch (action.type) {
         case constants.FETCH_ALL:
-            return action.payload;
+            return {
+                ...state,
+                posts: action.payload.data,
+                currentPage: action.payload.currentPage,
+                numberOfPages: action.payload.numberOfPages,
+            };
         case constants.FETCH_BY_SEARCH:
-            return action.payload;
+            return { ...state, posts: action.payload };
         case constants.CREATE:
-            return [ ...posts, action.payload ];
+            return { ...state, posts: [...state.posts, action.payload] };
         case constants.UPDATE:
         case constants.LIKE:
-            return posts.map((post) => post._id === action.payload._id ? action.payload : post);
+            return { ...state, posts: state.posts.map((post) => (post._id === action.payload._id ? action.payload : post)) };
         case constants.DELETE:
-            return posts.filter((post) => post._id !== action.payload._id);
+            return { ...state, posts: state.posts.filter((post) => post._id !== action.payload) };
         default:
-            return posts;
+            return state;
     }
 }
 export default reducers;

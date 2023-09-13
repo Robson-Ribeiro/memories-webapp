@@ -2,11 +2,18 @@ import mongoose from 'mongoose';
 import PostModel from '../models/postModel.js';
 
 export const getPosts = async (req, res) => {
+    let { page } = req.query;
+    if(!page) page = 1;
+
     try {
-        const posts = await PostModel.find();
+        const LIMIT = 6;
+        const startIndex = (Number(page) - 1) * LIMIT;
+        const total = await PostModel.countDocuments( {} );
+
+        const posts = await PostModel.find().sort({ _id: -1 }).skip(startIndex).limit(LIMIT);
         if(!posts) return res.status(500).json({ message: "An internal error had occurred. Please, try later!" });
 
-        res.status(200).json(posts);
+        res.status(200).json({ data: posts, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) });
     } catch (error) {
         res.status(404).json({ message: error.message });
     }

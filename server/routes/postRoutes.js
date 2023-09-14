@@ -7,11 +7,12 @@ import { getPosts, getPost, createPost, updatePost, deletePost, likePost, getPos
 
 
 router.get('/', getPosts);
+router.get('/search', getPostsBySearch);
 router.get('/:id', getPost);
 router.post('/', authMiddleware, createPost);
 router.patch('/:id', authMiddleware, updatePost);
 router.delete('/:id', authMiddleware, deletePost);
 router.patch('/:id/likePost', authMiddleware, likePost);
-router.get('/search', getPostsBySearch);
+
 
 export default router;

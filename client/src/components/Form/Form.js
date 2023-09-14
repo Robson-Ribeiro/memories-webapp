@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Typography, Paper } from '@material-ui/core';
 import FileBase from 'react-file-base64';
 import useStyles from './styles';
@@ -13,6 +14,7 @@ const Form = ({ currentId, setCurrentId }) => {
     const dispatch = useDispatch();
     const classes = useStyles();
     const user = JSON.parse(localStorage.getItem('profile'));
+    const navigate = useNavigate();
 
     useEffect(() => {
         if(post) setPostData(post);
@@ -21,14 +23,12 @@ const Form = ({ currentId, setCurrentId }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         
-        console.log(postData.title);
-        
         if(!postData.title || !postData.message || !postData.tags || !postData.selectedFile) return window.alert('The form must be completed in order to submit a post!');
 
         if(currentId) {
            dispatch(updatePost({ ...postData, name: user?.result?.name }, currentId));
         } else {
-            dispatch(createPost({ ...postData, name: user?.result?.name }));
+            dispatch(createPost({ ...postData, name: user?.result?.name }, navigate));
         }
 
         clear();

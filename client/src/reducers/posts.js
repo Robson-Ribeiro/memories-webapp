@@ -13,6 +13,8 @@ const reducers = (state = { isLoading: true, posts: [] }, action) => {
                 currentPage: action.payload.currentPage,
                 numberOfPages: action.payload.numberOfPages,
             };
+        case constants.FETCH_ONE:
+            return { ...state, post: action.payload };
         case constants.FETCH_BY_SEARCH:
             return { ...state, posts: action.payload };
         case constants.CREATE:

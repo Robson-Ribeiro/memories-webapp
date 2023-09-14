@@ -3,10 +3,11 @@ const router = new Router();
 
 import authMiddleware from '../middleware/authMiddleware.js';
 
-import { getPosts, createPost, updatePost, deletePost, likePost, getPostsBySearch } from '../controllers/postControllers.js';
+import { getPosts, getPost, createPost, updatePost, deletePost, likePost, getPostsBySearch } from '../controllers/postControllers.js';
 
 
 router.get('/', getPosts);
+router.get('/:id', getPost);
 router.post('/', authMiddleware, createPost);
 router.patch('/:id', authMiddleware, updatePost);
 router.delete('/:id', authMiddleware, deletePost);

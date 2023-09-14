@@ -19,6 +19,21 @@ export const getPosts = async (req, res) => {
     }
 }
 
+export const getPost = async (req, res) => {
+    const { id: _id } = req.params;
+    if(!_id) return res.status(404).json({ message: "No param received!" });
+    if(!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).json({ message: "No valid param received!" });
+
+    try {
+        const post = await PostModel.findById(_id);
+        if(!post) return res.status(404).json({ message: "Couldn't find what you are looking for!" });
+
+        res.status(200).json(post);
+    } catch (error) {
+        res.status(409).json({ message: error.message });
+    }
+}
+
 export const createPost = async (req, res) => {
     if(!req.userId) return res.status(401).json({ message: "Unauthenticated" });
 

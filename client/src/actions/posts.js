@@ -14,6 +14,19 @@ export const getPosts = (page) => async (dispatch) => {
     }
 }
 
+export const getPost = (id) => async(dispatch) => {
+    try {
+        dispatch({ type: constants.START_LOADING });
+        const { data } = await api.getPost(id);
+
+        dispatch({ type: constants.FETCH_ONE, payload: data });
+
+        dispatch({ type: constants.END_LOADING });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export const getPostsBySearch = (searchQuery) => async(dispatch) => {
     try {
         dispatch({ type: constants.START_LOADING });

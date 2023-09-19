@@ -20,6 +20,7 @@ export default makeStyles((theme) => ({
     borderRadius: '20px',
     margin: '10px',
     flex: 1,
+    overflow: 'auto',
   },
   imageSection: {
     marginLeft: '20px',

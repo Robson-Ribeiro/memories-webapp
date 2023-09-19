@@ -14,11 +14,13 @@ export default makeStyles({
     height: '100%',
   },
   card: {
+    overflow: 'auto',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
     borderRadius: '15px',
     height: '100%',
+    maxHeight: '390px',
     position: 'relative',
   },
   overlay: {
@@ -52,5 +54,12 @@ export default makeStyles({
   cardAction: {
     display: 'block',
     textAlign: 'initial',
+  },
+  message: {
+    height: '40px',
+    width: '70%',
+    overflow: 'hidden',
+    marginBottom: '10px'
+
   },
 });

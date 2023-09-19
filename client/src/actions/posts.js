@@ -29,7 +29,7 @@ export const getPost = (id) => async(dispatch) => {
 
 export const getPostsBySearch = (searchQuery) => async(dispatch) => {
     try {
-        //dispatch({ type: constants.START_LOADING });
+        dispatch({ type: constants.START_LOADING });
 
         const { data: { data } } = await api.searchPosts(searchQuery);
 

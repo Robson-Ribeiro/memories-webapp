@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { Paper, Typography, CircularProgress, Divider } from '@material-ui/core';
@@ -14,6 +14,7 @@ const PostDetails = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { id } = useParams();
+    const [recommendedPosts, setRecommendedPosts] = useState([]);
 
     useEffect(() => {
         dispatch(getPost(id));
@@ -25,6 +26,14 @@ const PostDetails = () => {
         }
     }, [post, dispatch]);
 
+    useEffect(() => {
+        setRecommendedPosts(posts.filter(({ _id }) => _id !== post._id ));
+        if(recommendedPosts.length >= 10) {
+            const slicedRecommendedPosts = recommendedPosts.slice(0, 9);
+            setRecommendedPosts(slicedRecommendedPosts);
+        }
+    }, [posts]);
+
     if(!post) return null;
 
     if(isLoading) {
@@ -34,8 +43,6 @@ const PostDetails = () => {
             </Paper>
         );
     }
-
-    const recommendedPosts = posts.filter(({ _id }) => _id !== post.id );
 
     const openPost = (_id) => navigate(`/posts/${_id}`);
 
@@ -49,16 +56,14 @@ const PostDetails = () => {
                     <Typography variant="h6">Created by: {post.name}</Typography>
                     <Typography variant="body1">{moment(post.createdAt).fromNow()}</Typography>
                     <Divider style={{ margin: '20px 0' }} />
-                    <Typography variant="body1"><strong>Realtime Chat - coming soon!</strong></Typography>
-                    <Divider style={{ margin: '20px 0' }} />
-                    <Typography variant="body1"><strong>Comments - coming soon!</strong></Typography>
+                    <Typography variant="body1"><strong>***Lugar adequado para uma nova feature</strong></Typography>
                     <Divider style={{ margin: '20px 0' }} />
                 </div>
                 <div className={classes.imageSection}>
                     <img className={classes.media} src={post.selectedFile || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} alt={post.title} />
                 </div>
             </div>
-            {recommendedPosts.length && (
+            {recommendedPosts.length ? (
                 <div className={classes.section}>
                     <Typography gutterBottom variant="h5">You might also like:</Typography>
                     <Divider />
@@ -69,12 +74,12 @@ const PostDetails = () => {
                                 <Typography variant="subtitle2" gutterBottom >{name}</Typography>
                                 <Typography variant="subtitle2" gutterBottom >{message}</Typography>
                                 <Typography variant="subtitle1" gutterBottom >Likes: {likes.length}</Typography>
-                                <img src={selectedFile} width="200px" />
+                                <img src={selectedFile} alt="recommendedPost" width="200px" />
                             </div>
                         ))}
                     </div>
                 </div>
-            )}
+            ) : <></>}
         </Paper>
     );
 };

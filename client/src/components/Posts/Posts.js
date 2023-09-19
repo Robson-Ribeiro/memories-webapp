@@ -12,7 +12,10 @@ const Posts = ({ setCurrentId }) => {
     if(!posts.length && !isLoading) return (<>No Posts</>);
 
     return (
-        isLoading ? <CircularProgress /> : (
+        isLoading ? 
+        <div elevation={6} className={classes.loading}>
+            <CircularProgress size="7em" />
+        </div> : (
             <Grid className={classes.container} container alignItems="stretch" spacing={3} >
                 {
                     posts.map((post) => (

@@ -11,6 +11,7 @@ export default makeStyles((theme) => ({
     alignItems: 'center',
     padding: '10px 50px',
   },
+  
   heading: {
     color: 'rgba(0,183,255, 1)',
     textDecoration: 'none',
@@ -62,8 +63,10 @@ export default makeStyles((theme) => ({
       width: '160px',
     },
   },
-
   actionDiv: {
     textAlign: 'center',
+  },
+  loading: {
+    display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px', borderRadius: '15px', height: '39vh',
   },
 }));

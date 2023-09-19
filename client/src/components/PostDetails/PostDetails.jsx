@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
-import { Paper, Typography, CircularProgress, Divider } from '@material-ui/core';
+import { Paper, Typography, CircularProgress, Divider, Grid, Card } from '@material-ui/core';
 import moment from "moment";
 
 import useStyles from './styles';
@@ -14,7 +14,6 @@ const PostDetails = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { id } = useParams();
-    const [recommendedPosts, setRecommendedPosts] = useState([]);
 
     useEffect(() => {
         dispatch(getPost(id));
@@ -24,15 +23,7 @@ const PostDetails = () => {
         if(post) {
             dispatch(getPostsBySearch({ search: 'none', tags: post?.tags.join(',') }));
         }
-    }, [post, dispatch]);
-
-    useEffect(() => {
-        setRecommendedPosts(posts.filter(({ _id }) => _id !== post._id ));
-        if(recommendedPosts.length >= 10) {
-            const slicedRecommendedPosts = recommendedPosts.slice(0, 9);
-            setRecommendedPosts(slicedRecommendedPosts);
-        }
-    }, [posts]);
+    }, [post]);    
 
     if(!post) return null;
 
@@ -45,6 +36,8 @@ const PostDetails = () => {
     }
 
     const openPost = (_id) => navigate(`/posts/${_id}`);
+
+    const recommendedPosts = posts.filter(({ _id }) => _id !== id );
 
     return (
         <Paper style={{ padding: '20px', borderRadius: '15px' }} elevation={6}>
@@ -63,21 +56,24 @@ const PostDetails = () => {
                     <img className={classes.media} src={post.selectedFile || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} alt={post.title} />
                 </div>
             </div>
+            
             {recommendedPosts.length ? (
                 <div className={classes.section}>
                     <Typography gutterBottom variant="h5">You might also like:</Typography>
                     <Divider />
-                    <div className={classes.recommendedPosts}>
+                    <Grid className={classes.recommendedPosts} display="flex" container flexDirection='row' alignItems="stretch" spacing={3} >
                         {recommendedPosts.map(({ title, message, name, likes, selectedFile, _id }) => (
-                            <div style={{ margin: '20px', cursor: 'pointer'}} onClick={() => openPost(_id)} key={_id}>
-                                <Typography variant="h6" gutterBottom >{title}</Typography>
-                                <Typography variant="subtitle2" gutterBottom >{name}</Typography>
-                                <Typography variant="subtitle2" gutterBottom >{message}</Typography>
-                                <Typography variant="subtitle1" gutterBottom >Likes: {likes.length}</Typography>
-                                <img src={selectedFile} alt="recommendedPost" width="200px" />
-                            </div>
+                            <Grid style={{ margin: '20px', cursor: 'pointer'}} onClick={() => openPost(_id)} key={ _id } xs={6} sm={6} md={3} lg={3} item >
+                                <Card className={classes.recommendedCard} style={{ overflow: 'auto' }} raised elevation={6} >
+                                    <Typography variant="h6" gutterBottom >{title}</Typography>
+                                    <Typography variant="subtitle2" gutterBottom >{name}</Typography>
+                                    <Typography variant="subtitle2" gutterBottom >{message}</Typography>
+                                    <Typography variant="subtitle1" gutterBottom >Likes: {likes.length}</Typography>
+                                    <img src={selectedFile} alt="recommendedPost" width="200px" />
+                                </Card>
+                            </Grid>
                         ))}
-                    </div>
+                    </Grid>
                 </div>
             ) : <></>}
         </Paper>

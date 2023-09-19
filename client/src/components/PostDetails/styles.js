@@ -6,7 +6,6 @@ export default makeStyles((theme) => ({
     objectFit: 'cover',
     width: '100%',
     maxHeight: '600px',
-
   },
   card: {
     display: 'flex',
@@ -16,11 +15,22 @@ export default makeStyles((theme) => ({
       flexDirection: 'column',
     },
   },
+  recommendedCard: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    borderRadius: '15px',
+    height: '100%',
+    maxHeight: '390px',
+    position: 'relative',
+    padding: '15px',
+  },
   section: {
     borderRadius: '20px',
     margin: '10px',
     flex: 1,
-    overflow: 'auto',
+    overflow: 'hidden',
+    padding: '10px 10px 30px 10px',
   },
   imageSection: {
     marginLeft: '20px',
@@ -30,6 +40,8 @@ export default makeStyles((theme) => ({
   },
   recommendedPosts: {
     display: 'flex',
+    flexDirection: 'row',
+    maxHeight: '450px',
     [theme.breakpoints.down('sm')]: {
       flexDirection: 'column',
     },

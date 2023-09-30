@@ -4,6 +4,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Paper, Typography, CircularProgress, Divider, Grid, Card } from '@material-ui/core';
 import moment from "moment";
 
+import CommentSection from "./CommentSection";
+
 import useStyles from './styles';
 
 import { getPost, getPostsBySearch } from '../../actions/posts';
@@ -49,7 +51,7 @@ const PostDetails = () => {
                     <Typography variant="h6">Created by: {post.name}</Typography>
                     <Typography variant="body1">{moment(post.createdAt).fromNow()}</Typography>
                     <Divider style={{ margin: '20px 0' }} />
-                    <Typography variant="body1"><strong>***Lugar adequado para uma nova feature</strong></Typography>
+                    <CommentSection post={post} />
                     <Divider style={{ margin: '20px 0' }} />
                 </div>
                 <div className={classes.imageSection}>

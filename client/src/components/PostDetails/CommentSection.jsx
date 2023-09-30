@@ -4,14 +4,18 @@ import { useDispatch } from 'react-redux';
 
 import useStyles from './styles';
 
+import { commentPost } from '../../actions/posts';
 
 const CommentSection = ({ post }) => {
     const classes = useStyles();
+    const dispatch = useDispatch();
     const [comments, setComments] = useState([]);
     const [comment, setComment] = useState('');
+    const user = JSON.parse(localStorage.getItem('profile'));
 
     const handleClick = () => {
-        console.log(comment);
+        const stringfyedComment = `${user.result.name}: ${comment}`;
+        dispatch(commentPost(stringfyedComment, post._id));
     }
 
     return (
@@ -42,7 +46,7 @@ const CommentSection = ({ post }) => {
                         value={comment}
                         onChange={ (e) => setComment(e.target.value) }
                     />
-                    <Button style={{marginTop: '10px'}} fullWidth disabled={!comment} variant="contained" onClick={ handleClick } >
+                    <Button style={{marginTop: '10px'}} fullWidth disabled={!comment} color="primary" variant="contained" onClick={ handleClick } >
                         Comment
                     </Button>
                 </div>

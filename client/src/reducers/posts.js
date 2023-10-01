@@ -24,8 +24,11 @@ const reducers = (state = { isLoading: true, posts: [] }, action) => {
             return { ...state, posts: state.posts.map((post) => (post._id === action.payload._id ? action.payload : post)) };
         case constants.DELETE:
             return { ...state, posts: state.posts.filter((post) => post._id !== action.payload) };
+        case constants.COMMENT:
+            return { ...state, posts: state.posts.map((post) => (post._id === action.payload._id ? action.payload : post)) };
         default:
             return state;
     }
 }
+
 export default reducers;

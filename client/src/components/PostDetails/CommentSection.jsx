@@ -11,6 +11,7 @@ const CommentSection = ({ post }) => {
     const dispatch = useDispatch();
     const [comments, setComments] = useState(post?.comments);
     const [comment, setComment] = useState('');
+    const commentsRef = useRef();
     const user = JSON.parse(localStorage.getItem('profile'));
 
     const handleClick = async () => {
@@ -18,6 +19,8 @@ const CommentSection = ({ post }) => {
         const newComments = await dispatch(commentPost(stringfyedComment, post._id));
         setComments(newComments);
         setComment('');
+
+        commentsRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
     }
 
     return (
@@ -28,13 +31,14 @@ const CommentSection = ({ post }) => {
                     { comments.length > 0 ?
                         comments.map((c, i) => (
                             <Typography key={i} gutterBottom variant="subtitle1" >
-                                {c}
+                                <strong>{c.split(': ')[0]}:</strong>{c.split(':')[1]}
                             </Typography>
                         )) :
                         <Typography  gutterBottom variant="subtitle1" >
                                 { user?.result?.name ? 'Be the first to interact with this comment section!' : 'No comments were made!'}
                         </Typography>
                     }
+                    <div ref={commentsRef} />
                 </div>
                 {user?.result?.name && (
                     <div style={{ width: '70%' }}>

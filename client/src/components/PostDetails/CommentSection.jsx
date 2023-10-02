@@ -9,13 +9,15 @@ import { commentPost } from '../../actions/posts';
 const CommentSection = ({ post }) => {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const [comments, setComments] = useState([]);
+    const [comments, setComments] = useState(post?.comments);
     const [comment, setComment] = useState('');
     const user = JSON.parse(localStorage.getItem('profile'));
 
-    const handleClick = () => {
+    const handleClick = async () => {
         const stringfyedComment = `${user.result.name}: ${comment}`;
-        dispatch(commentPost(stringfyedComment, post._id));
+        const newComments = await dispatch(commentPost(stringfyedComment, post._id));
+        setComments(newComments);
+        setComment('');
     }
 
     return (
@@ -26,11 +28,11 @@ const CommentSection = ({ post }) => {
                     { comments.length > 0 ?
                         comments.map((c, i) => (
                             <Typography key={i} gutterBottom variant="subtitle1" >
-                                {i}
+                                {c}
                             </Typography>
                         )) :
                         <Typography  gutterBottom variant="subtitle1" >
-                                Be the first to interact with this post's comment section!
+                                { user?.result?.name ? 'Be the first to interact with this comment section!' : 'No comments were made!'}
                         </Typography>
                     }
                 </div>

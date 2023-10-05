@@ -34,10 +34,6 @@ const Home = () => {
     const [search, setSearch] = useState('');
     const [tags, setTags] = useState([]);
 
-    function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
-
     const searchPost = () => {
         if(search.trim() || tags) {
             dispatch(getPostsBySearch({ search, tags: tags.join(',') }));
